@@ -109,7 +109,12 @@ class UpiBuilder(object):
     def perpare_function(self, name, function):
         sig = get_method_sig(function)
         sig = sig.split("(", 1)
-        sig = sig[0] + "(self, " + sig[1]
+        if "self" in sig[1]:
+            sig = sig[0] + "(" + sig[1]
+        elif len(sig[1]) == 1:
+            sig = sig[0] + "(self" + sig[1]
+        else:
+            sig = sig[0] + "(self, " + sig[1]
         code = "def {}: pass".format(sig)
         myGlobals = {}
         #exec(code, myGlobals)
